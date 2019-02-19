@@ -113,9 +113,8 @@ routes.get("/times", function(req, res) {
     `SELECT count(*) as jogs_data from jogs WHERE user_id = ?`
   );
   jogs_data = numberOfJogs.get(req.cookies.userId);
-  console.log("rows ", jogs_data.jogs_data);
-
   if (jogs_data.jogs_data < 3) {
+    console.log("NOT ENOUGH JOGS...A MINIMUM OF 3 ARE REQUIRED");
     res.redirect("/times/new");
   }
 
@@ -125,9 +124,7 @@ routes.get("/times", function(req, res) {
   );
   the_user_id = get_user_id.get(req.cookies.userId);
 
-  console.log("LOOK HERE TO SEE THE USER ID PLEASE...", req.cookies.userId);
-  // fake stats - TODO: get real stats from the database
-
+  // Get the avgs of runs
   var distance = db.prepare(
     `SELECT SUM(distance) As totaldistance FROM jogs WHERE user_id = ?`
   );
@@ -157,6 +154,7 @@ routes.get("/times", function(req, res) {
   );
 
   //Distances
+  console.log(times_distance);
   var new_distance = times_distance.get(req.cookies.userId);
   var new_distance2 = times_distance2.get(req.cookies.userId);
   var new_distance3 = times_distance3.get(req.cookies.userId);
@@ -177,6 +175,7 @@ routes.get("/times", function(req, res) {
   var new_duration2 = time_duration2.get(req.cookies.userId);
   var new_duration3 = time_duration3.get(req.cookies.userId);
   // Averages
+
   var time_avg_speed = new_distance.new_distance / new_duration.new_duration;
   var time_avg_speed2 =
     new_distance2.new_distance2 / new_duration2.new_duration2;
@@ -210,39 +209,38 @@ routes.get("/times", function(req, res) {
     `SELECT date as new_date_3 FROM jogs WHERE user_id = ? ORDER BY id DESC LIMIT 1  OFFSET 2 `
   );
 
+  // parsing the date from the db
   var new_date = date_1.get(req.cookies.userId);
   var new_date_2 = date_2.get(req.cookies.userId);
   var new_date_3 = date_3.get(req.cookies.userId);
-
   var parse_date_1 = new Date(new_date.new_date).toUTCString();
   var parse_date_2 = new Date(new_date_2.new_date_2).toUTCString();
   var parse_date_3 = new Date(new_date_3.new_date_3).toUTCString();
-
   the_parsed_date_1 = parse_date_1.toString();
   the_parsed_date_2 = parse_date_2.toString();
   the_parsed_date_3 = parse_date_3.toString();
 
-  console.log("last date entered...", the_parsed_date_1);
-  console.log("Second last date entered...", the_parsed_date_2);
-  console.log("Third last date entered...", the_parsed_date_3);
-
   /*
-
-  console.log("the id of the last enterd time...", time_id.time_id);
-  console.log("the id of the last enterd time...", time_id_2.time_id_2);
-  console.log("the id of the last enterd time...", time_id_3.time_id_3);
-  */
-
   console.log("the user is..", req.cookies.userId);
-  console.log("Last distance...", new_distance.new_distance);
-  console.log("Second last distance...", new_distance2.new_distance2);
-  console.log("Third last distance...", new_distance3.new_distance3);
-  console.log("Last duration...", new_duration.new_duration);
-  console.log("Second last duration...", new_duration2.new_duration2);
-  console.log("Third last duration...", new_duration3.new_duration3);
-  console.log("Avg speed...", time_avg_speed);
-  console.log("Avg speed 2...", time_avg_speed2);
-  console.log("Avg speed 3...", time_avg_speed3);
+  console.log(
+    "Last 3 distances",
+    new_distance.new_distance,
+    new_distance2.new_distance2,
+    new_distance3.new_distance3
+  );
+  console.log(
+    "Last 3 durations...",
+    new_duration.new_duration,
+    new_duration2.new_duration2,
+    new_duration3.new_duration3
+  );
+  console.log(
+    "Avg speeds...",
+    time_avg_speed,
+    time_avg_speed2,
+    time_avg_speed3
+  );
+*/
 
   res.render("list-times.html", {
     user: loggedInUser,
