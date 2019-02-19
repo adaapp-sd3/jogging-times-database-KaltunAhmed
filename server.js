@@ -7,7 +7,7 @@ var expressHandlebars = require('express-handlebars')
 var routes = require('./routes')
 
 // the port to listen on. choose whatever you want!
-var port = process.env.PORT || 3000
+var port = 3000
 
 // create a new express app:
 var app = express()
