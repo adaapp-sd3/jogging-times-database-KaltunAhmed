@@ -24,6 +24,28 @@ body {
   margin: 0;
 }
 
+.delete-button {
+background: white;
+color: #ff5230
+}
+.delete-button:hover{
+  background: #ff5230;
+  color: white;
+}
+.delete-button h3{
+  color:#ff5230
+
+}
+.delete-button:hover h3{
+  color: white;
+}
+.delete-button a {
+  text-decoration: none;
+}
+
+
+
+
 /**
  * Correct the font size and margin on `h1` elements within `section` and
  * `article` contexts in Chrome, Firefox, and Safari.
